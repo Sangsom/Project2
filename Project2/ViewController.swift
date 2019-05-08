@@ -45,7 +45,13 @@ class ViewController: UIViewController {
         title = "\(countries[correctAnswer].uppercased()), Score: \(score)"
         questionsAsked += 1
     }
-
+    
+    func restartGame(action: UIAlertAction! = nil) {
+        score = 0
+        questionsAsked = 0
+        askQuestion()
+    }
+    
     @IBAction func buttonTapped(_ sender: UIButton) {
         var title: String
         
@@ -57,14 +63,14 @@ class ViewController: UIViewController {
             score -= 1
         }
         
-        if questionsAsked <= 10 {
+        if questionsAsked == 10 {
+            let finalAc = UIAlertController(title: title, message: "You have anwered to \(questionsAsked) questions.\nYour score is \(score)", preferredStyle: .alert)
+            finalAc.addAction(UIAlertAction(title: "Restart", style: .default, handler: restartGame))
+            present(finalAc, animated: true)
+        } else {
             let ac = UIAlertController(title: title, message: "Your score is \(score)", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: askQuestion))
             present(ac, animated: true)
-        } else {
-            let finalAc = UIAlertController(title: title, message: "You have anwered to \(questionsAsked) questions", preferredStyle: .alert)
-            finalAc.addAction(UIAlertAction(title: "Continue", style: .default, handler: askQuestion))
-            present(finalAc, animated: true)
         }
     }
 }
